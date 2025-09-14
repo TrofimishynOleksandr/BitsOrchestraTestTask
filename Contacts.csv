@@ -1,0 +1,11 @@
+Name,DateOfBirth,Married,Phone,Salary
+John Doe,1985-04-12,true,+1234567890,55000.75
+Jane Smith,1990-09-30,false,+1987654321,48000.00
+Bob Brown,1975-01-05,true,+1122334455,72000.50
+Alice Johnson,1992-07-18,false,+123123123,62000.00
+Mark Taylor,1988-11-25,true,,51000.00
+,1983-03-14,true,+111222333,58000.00
+Emily Davis,1995-05-09,false,+999888777,notanumber
+Chris White,2000-12-01,false,+444555666,45000.00
+Linda Green,1998-06-22,maybe,+555666777,39000.25
+Tom Lee,1979-10-10,true,+321321321,67000.00,Extra
