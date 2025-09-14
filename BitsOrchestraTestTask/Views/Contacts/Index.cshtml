@@ -1,0 +1,83 @@
+﻿@model IEnumerable<BitsOrchestraTestTask.Models.Entities.Contact>
+@{
+    ViewData["Title"] = "Manage Contacts";
+}
+
+<h2>Manage Contacts</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-controller="Contacts" asp-action="UploadCsv" enctype="multipart/form-data" method="post" class="mb-3">
+    <input type="file" name="file" class="form-control" />
+    <button type="submit" class="btn btn-primary mt-2">Upload CSV</button>
+</form>
+
+<table id="contactsTable" class="display table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>Married</th>
+        <th>Phone</th>
+        <th>Salary</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var c in Model)
+    {
+        <tr data-id="@c.Id">
+            <td contenteditable="true" data-field="Name">@c.Name</td>
+            <td contenteditable="true" data-field="DateOfBirth">@c.DateOfBirth.ToShortDateString()</td>
+            <td contenteditable="true" data-field="Married">@c.Married</td>
+            <td contenteditable="true" data-field="Phone">@c.Phone</td>
+            <td contenteditable="true" data-field="Salary">@c.Salary</td>
+            <td>
+                <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#contactsTable').DataTable({
+                columnDefs: [
+                    { targets: 1, type: "date" },
+                    { targets: 5, orderable: false }
+                ]
+            });
+            
+            $('#contactsTable').on('blur', '[contenteditable=true]', function () {
+                var td = $(this);
+                var id = td.closest('tr').data('id');
+                var field = td.data('field');
+                var value = td.text();
+
+                $.post('/Contacts/Update', { id: id, field: field, value: value })
+                    .fail(function (xhr) {
+                        alert("Error updating: " + xhr.responseJSON.error);
+                    });
+            });
+            
+            $('#contactsTable').on('click', '.delete-btn', function () {
+                var row = $(this).closest('tr');
+                var id = row.data('id');
+
+                $.post('/Contacts/Delete', { id: id })
+                    .done(function () { row.remove(); })
+                    .fail(function () { alert("Error deleting"); });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,25 @@
+﻿# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build
+bin/
+obj/
+out/
+
+# Rider specific
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# Logs
+*.log
+
+# Other
+*.DS_Store
+Thumbs.db
